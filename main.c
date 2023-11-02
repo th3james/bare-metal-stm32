@@ -34,5 +34,6 @@ int main(void) {
 
   // Don't return from main
   for (;;) {
+      __asm__ volatile("nop");
   }
 }
