@@ -38,11 +38,19 @@ int main(void) {
   // Set mode for LED pin to output
   GPIO_MODER_REGISTER(GPIO_BLINK_PORT) |= GPIO_MODE_OUTPUT(GPIO_BLINK_PIN);
 
-  // Turn LED on
-  GPIO_ODR_REGISTER(GPIO_BLINK_PORT) |= GPIO_ODR_PIN(GPIO_BLINK_PIN);
-
-  // Don't return from main
   for (;;) {
+    // Turn LED on
+    GPIO_ODR_REGISTER(GPIO_BLINK_PORT) |= GPIO_ODR_PIN(GPIO_BLINK_PIN);
+    // Delay
+    for (int i = 0; i < 100000; i++) {
       __asm__ volatile("nop");
+    }
+
+    // Turn LED off
+    GPIO_ODR_REGISTER(GPIO_BLINK_PORT) &= ~GPIO_ODR_PIN(GPIO_BLINK_PIN);
+    // Delay
+    for (int i = 0; i < 100000; i++) {
+      __asm__ volatile("nop");
+    }
   }
 }
