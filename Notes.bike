@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8"/>
+  </head>
+  <body>
+    <ul id="QfHl9Bg9">
+      <li id="3C" data-type="heading">
+        <p>Embedded development From Scratch</p>
+      </li>
+      <li id="px">
+        <p><a href="https://maldus512.medium.com/bare-metal-programming-on-an-stm32f103-3a0f4e50ca29">https://maldus512.medium.com/bare-metal-programming-on-an-stm32f103-3a0f4e50ca29</a></p>
+      </li>
+      <li id="ml">
+        <p>https://www.keil.arm.com/boards/stmicroelectronics-b-l475e-iot01a-1-83af818/projects/</p>
+      </li>
+      <li id="kk">
+        <p>https://www.keil.arm.com/packs/stm32l4xx_dfp-keil/boards/</p>
+      </li>
+      <li id="d9">
+        <p/>
+      </li>
+      <li id="bu">
+        <p>GPIO - general purpose IO</p>
+        <ul>
+          <li id="2F">
+            <p>Peripheral registers are memory mapped</p>
+            <ul>
+              <li id="-J">
+                <p>Greatly simplified, imagine setting the output level of the GPIO by writing 0 or 1 in a memory cell.</p>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li id="9Hj" data-done="2023-11-02T12:27:02Z" data-type="task">
+        <p>Configure linker correctly</p>
+        <ul>
+          <li id="8RC" data-done="2023-11-01T16:04:33Z" data-type="task">
+            <p>Flash</p>
+            <ul>
+              <li id="cdq" data-done="2023-11-01T15:57:58Z" data-type="task">
+                <p>Origin address</p>
+                <ul>
+                  <li id="4WJ">
+                    <p>0x0800 0000</p>
+                    <ul>
+                      <li id="1UW">
+                        <p>Device Family Reference Manual rm0351-stm32l47xxx-stm32l48xxx-stm32l49xxx-and-stm32l4axxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf`</p>
+                        <ul>
+                          <li id="0Xm">
+                            <p>`Table 8. Flash module - 1 MB dual bank organisation`</p>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li id="F6O" data-done="2023-11-01T15:54:06Z" data-type="task">
+                <p>Size</p>
+                <ul>
+                  <li id="Wce">
+                    <p><span>1 Mbyte according to `</span><em>Board User Manual - STM32L4 Disco - DM00347848.pdf</em><span>` page 6</span></p>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li id="AcS" data-done="2023-11-01T16:04:32Z" data-type="task">
+            <p>RAM</p>
+            <ul>
+              <li id="WNm" data-done="2023-11-01T16:04:31Z" data-type="task">
+                <p>Origin</p>
+                <ul>
+                  <li id="n2-">
+                    <p>0x2000 0000</p>
+                    <ul>
+                      <li id="6Vp">
+                        <p><em>Device Family Reference Manual rm0351-stm32l47xxx-stm32l48xxx-stm32l49xxx-and-stm32l4axxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf`</em></p>
+                        <ul>
+                          <li id="j4X">
+                            <p><em>Figure 3. Memory map for STM32L47x/L48x devices - page 76</em></p>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li id="CnM" data-done="2023-11-01T15:59:52Z" data-type="task">
+                <p>Size</p>
+                <ul>
+                  <li id="lLF">
+                    <p><span>128 Kbytes of SRAM according to `</span><em>Board User Manual - STM32L4 Disco - DM00347848.pdf</em><span>` page 6</span></p>
+                    <ul>
+                      <li id="2AZ">
+                        <p>No, this is the wrong value as it combines SRAM1 &amp; SRAM2, which are non contiguous</p>
+                      </li>
+                    </ul>
+                  </li>
+                  <li id="3od">
+                    <p>96KB of SRAM1 according to </p>
+                    <ul>
+                      <li id="9We">
+                        <p><em>Device SubFamily Datasheet STM32L475xx.pdf</em></p>
+                        <ul>
+                          <li id="vbA">
+                            <p><em>3.5 Embedded SRAM page 18</em></p>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li id="MnI" data-done="2023-11-02T12:26:50Z" data-type="task">
+            <p>Vector interrupt table size</p>
+            <ul>
+              <li id="2Za" data-done="2023-11-01T16:48:39Z" data-type="task">
+                <p>Where is the vector table?</p>
+                <ul>
+                  <li id="NUD">
+                    <p><em>Arm User Guide dui0553a_cortex_m4_dgug.pdf</em></p>
+                    <ul>
+                      <li id="PZa">
+                        <p><em>2.3.4 Vector table</em></p>
+                        <ul>
+                          <li id="pQM">
+                            <p>Doesn’t actually seem to tell me how big it is?</p>
+                          </li>
+                          <li id="j0y">
+                            <p>That’s because it’s device specific, this guide just tells you the generic start registers for Cortex M4 (of which there are 16)</p>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li id="Yqd">
+                    <p><em>Device Family Reference Manual rm0351-stm32l47xxx-stm32l48xxx-stm32l49xxx-and-stm32l4axxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf</em></p>
+                    <ul>
+                      <li id="1b-">
+                        <p><em>13 Nested vectored interrupt controller (NVIC)</em></p>
+                        <ul>
+                          <li id="NA1" data-type="quote">
+                            <p>82 (for STM32L47x/L48x devices)</p>
+                          </li>
+                          <li id="ZZX">
+                            <p>Looks like this must be added to the 16 </p>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li id="1b_">
+                <p>(16 + 82) * 4 = 392</p>
+                <ul>
+                  <li id="hTG" data-type="task">
+                    <p>Not entirely sure why *4?</p>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li id="a1" data-done="2023-10-19T11:53:40Z" data-type="task">
+        <p>Enable GPIO port</p>
+        <ul>
+          <li id="Ml" data-type="quote">
+            <p>The port where the GPIO is located must be enabled as a whole</p>
+          </li>
+          <li id="7ks">
+            <p>Which port?</p>
+            <ul>
+              <li id="oAZ">
+                <p><span>The </span><strong>Figure 1. STM32L475xx block diagram</strong><span> lists the ports, </span></p>
+              </li>
+              <li id="BwS">
+                <p>Could it be that the specific development board provides the mapping?</p>
+                <ul>
+                  <li id="1_-">
+                    <p><span>Consulting board user manual (‘</span><em>Board User Manual - STM32L4 Disco - DM00347848’</em><span>)</span></p>
+                    <ul>
+                      <li id="Px">
+                        <p><em>‘Figure 22. STM32L4 Discovery kit for IoT node (top)’ </em><span>shows LED2</span></p>
+                      </li>
+                      <li id="Tc">
+                        <p><em>‘Figure 23. STM32L475VG microcontroller’</em><span> shows LED2 maps to PB14</span></p>
+                      </li>
+                      <li id="3eC">
+                        <p><span>Which port does this mean? </span><strong>Port B</strong></p>
+                        <ul>
+                          <li id="AK">
+                            <p><span>It does appear to, according to ‘</span><em>Table 17. Alternate function AF0 to AF7’</em><span> in </span><em>‘Device SubFamily Datasheet STM32L475xx.pdf’</em></p>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li id="f0">
+            <p>How?</p>
+            <ul>
+              <li id="q6_" data-type="quote">
+                <p>Enabling any peripheral on the STM32F103 is done by writing to the Reset and Clock Control (RCC for short) class or registers.</p>
+              </li>
+              <li id="21w" data-done="2023-11-01T10:37:21Z" data-type="task">
+                <p><span>Find </span><strong>RCC register boundary</strong></p>
+                <ul>
+                  <li id="xl">
+                    <p><span>Consulting ‘</span><em>Device Family Reference Manual rm0351...pdf’</em><span> as recommended by the guide</span></p>
+                    <ul>
+                      <li id="PX">
+                        <p><em>‘Table 1. STM32L47x/L48x devices memory map and peripheral register boundary addresses’</em><span> on page 79 appear to have the RCC </span></p>
+                      </li>
+                    </ul>
+                  </li>
+                  <li id="6Cq">
+                    <p><em>‘Table 19. STM32L475xx memory map and peripheral register boundary addresses’</em><span> in ‘</span><em>DM00172872.pdf’</em><span> corroborates this value</span></p>
+                  </li>
+                  <li id="Dz">
+                    <p><strong>RCC Register Boundary</strong><span>: 0x4002 1000 - 0x4002 13FF</span></p>
+                  </li>
+                  <li id="xga">
+                    <p>That’s the RCC range, but we need to find the “PB2 peripheral clock enable register (or RCC_APB2ENR).”</p>
+                  </li>
+                </ul>
+              </li>
+              <li id="_x" data-done="2023-11-01T11:11:41Z" data-type="task">
+                <p>Find the PB2 peripheral clock enable register</p>
+                <ul>
+                  <li id="yM">
+                    <p>The blog references `RCC_APB2ENR_IOPCEN`, which enables port C</p>
+                  </li>
+                  <li id="w_I">
+                    <p><em>‘Device Family Reference Manual rm0351-stm32l47….pdf’</em></p>
+                    <ul>
+                      <li id="Jv">
+                        <p><span>Found</span><strong> RCC_APB2ENR  </strong><span>on page 258, but it doesn’t have an `IOPCEN`</span></p>
+                      </li>
+                      <li id="i1">
+                        <p><span>However, </span><strong>RCC_AHB2ENR</strong><span> on page 251 does have</span></p>
+                      </li>
+                      <li id="BLJ" data-type="quote">
+                        <p><span>Bit 1 </span><strong>GPIOBEN: </strong><span>IO port B clock enable</span></p>
+                      </li>
+                      <li id="UW" data-done="2023-11-01T11:11:35Z" data-type="task">
+                        <p><span>What's the difference between </span><strong>APB2</strong><span> and </span><strong>AHB2?</strong></p>
+                        <ul>
+                          <li id="W8m">
+                            <p>Theory: different buses?</p>
+                            <ul>
+                              <li id="jeE">
+                                <p>If that’s true, consult the board schematics?</p>
+                              </li>
+                              <li id="Y_e">
+                                <p>No answer to be found there</p>
+                              </li>
+                            </ul>
+                          </li>
+                          <li id="GEg">
+                            <p><strong>APB2</strong><span>: Advanced Peripheral Bus 2</span></p>
+                          </li>
+                          <li id="JP5">
+                            <p><strong>AHB2</strong><span>: Advanced High-performance Bus 2.</span></p>
+                            <ul>
+                              <li id="ZLB" data-type="quote">
+                                <p>The most fundamental difference is the type of bus the peripherals are connected to. APB2 is generally for low-bandwidth, low-latency peripherals like UARTs, while AHB2 is for high-bandwidth peripherals.</p>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li id="j3s">
+                    <p><strong>RCC_AHB2ENR:</strong><span> Address offset: 0x4C</span></p>
+                    <ul>
+                      <li id="RnS">
+                        <p><strong>RCC_AHB2ENR_GPIOBEN</strong><span>: Bit 1</span></p>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+      <li id="lE6" data-done="2023-11-01T15:32:04Z" data-type="task">
+        <p>Configure PB14 as output pin</p>
+        <ul>
+          <li id="mn" data-type="quote">
+            <p>The GPIO must be configured as an output pin.</p>
+          </li>
+          <li id="UJh">
+            <p>We learnt in the last step that PB14 is the pin we need to target, rather than PC13 which is referenced in the blog</p>
+          </li>
+          <li id="Eom" data-done="2023-11-01T11:49:05Z" data-type="task">
+            <p>Find GPIO Port B register boundaries</p>
+            <ul>
+              <li id="Wq9">
+                <p><em>‘Device Family Reference Manual rm0351-stm32l47xxx….pdf</em><span>’ - </span><em>‘Table 1. STM32L47x/L48x devices memory map and peripheral register boundary addresses’ - page 78</em></p>
+              </li>
+              <li id="1Dv">
+                <p><strong>GPIOB</strong><span>: 0x4800 0400 - 0x4800 07FF</span></p>
+              </li>
+            </ul>
+          </li>
+          <li id="8pn" data-done="2023-11-02T12:27:07Z" data-type="task">
+            <p>Understand which bits to set</p>
+            <ul>
+              <li id="mLI">
+                <p><em>Device Family Reference Manual rm0351-stm32l47xxx….pdf</em><span> - </span><em>8 General-purpose I/Os (GPIO)</em></p>
+                <ul>
+                  <li id="LXn" data-type="quote">
+                    <p>Each general-purpose I/O port has four 32-bit configuration registers (GPIOx_MODER, GPIOx_OTYPER, GPIOx_OSPEEDR and GPIOx_PUPDR), two 32-bit data registers (GPIOx_IDR and GPIOx_ODR) and a 32-bit set/reset register (GPIOx_BSRR).</p>
+                  </li>
+                </ul>
+              </li>
+              <li id="uqI">
+                <p>If I understand this correctly, the `x` value in `GPIOx_` should map to my port, which is 14</p>
+              </li>
+              <li id="tb4" data-done="2023-11-01T14:11:03Z" data-type="task">
+                <p>Open Drain vs push pull?</p>
+                <ul>
+                  <li id="DwG">
+                    <p>Push pull actively pushes power to the output when enabled, the drops it when disabled</p>
+                  </li>
+                  <li id="2AG">
+                    <p>Open/drain allows power to be pushed when open, but will never be open when is drain state</p>
+                  </li>
+                  <li id="THE">
+                    <p>If I understand the code in the blog correctly, they don’t specify this value. If it defaults to 00 it would be in push-pull</p>
+                  </li>
+                </ul>
+              </li>
+              <li id="vNM" data-done="2023-11-01T14:11:12Z" data-type="task">
+                <p>Desired values:</p>
+                <ul>
+                  <li id="Lih">
+                    <p><strong>GPIOB_MODE14: </strong><span>01</span></p>
+                  </li>
+                  <li id="QA2">
+                    <p><strong>GPIOB_OTYPE14: </strong><span>0</span></p>
+                    <ul>
+                      <li id="eJQ">
+                        <p>Push-Pull</p>
+                      </li>
+                    </ul>
+                  </li>
+                  <li id="bOR">
+                    <p><strong>GPIOB_OSPEED14</strong><span>: 0</span></p>
+                    <ul>
+                      <li id="gpW">
+                        <p>Guessing this is low speed and we don’t need high?</p>
+                      </li>
+                    </ul>
+                  </li>
+                  <li id="nS1">
+                    <p><strong>GPIOB_PUPD14:</strong><span> 00</span></p>
+                    <ul>
+                      <li id="KFU">
+                        <p>Don’t pull the initial state anywhere</p>
+                      </li>
+                      <li id="8mJ">
+                        <p>If I understand this correctly, setting this to either 01 or 10 should force the default state to on or off (perhaps not respectively)</p>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li id="xpa">
+                <p>Register locations</p>
+                <ul>
+                  <li id="kM2">
+                    <p><strong>GPIOB_MODER</strong><span>: </span></p>
+                    <ul>
+                      <li id="lEG">
+                        <p><span>Address offset:0x00 (</span><em>GPIO port mode register (GPIOx_MODER) - Device Family Reference Manual rm0351</em><span>)</span></p>
+                      </li>
+                      <li id="hrg">
+                        <p><strong>MODE14:</strong><span> (2 bits * 14) 28,29</span></p>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li id="n3s" data-done="2023-11-01T15:31:48Z" data-type="task">
+            <p>Use a mask to clear the registers</p>
+          </li>
+          <li id="Te6" data-done="2023-11-02T12:27:40Z" data-type="task">
+            <p>Update code to set value</p>
+          </li>
+        </ul>
+      </li>
+      <li id="JYR" data-done="2023-11-02T13:12:14Z" data-type="task">
+        <p>Toggle pin setting</p>
+        <ul>
+          <li id="8MG" data-done="2023-11-02T12:36:24Z" data-type="task">
+            <p>Find ODR register</p>
+            <ul>
+              <li id="6UL">
+                <p><em>Device Family Reference Manual rm0351-stm32l47xxx-stm32l48xxx-stm32l49xxx-and-stm32l4axxx-advanced-armbased-32bit-mcus-stmicroelectronics.pdf</em></p>
+                <ul>
+                  <li id="dL3">
+                    <p><em>8.5.6 GPIO port output data register</em></p>
+                  </li>
+                </ul>
+              </li>
+              <li id="gci">
+                <p><strong>Address offset:</strong><span> 0x14</span></p>
+              </li>
+              <li id="rX-">
+                <p>Single bit per port, so we need to set bit 14</p>
+              </li>
+            </ul>
+          </li>
+          <li id="LJE" data-done="2023-11-02T13:12:13Z" data-type="task">
+            <p>Write code to set this</p>
+          </li>
+        </ul>
+      </li>
+      <li id="JMD">
+        <p>Holy cow, it works</p>
+      </li>
+      <li id="4bD" data-done="2023-11-02T12:27:09Z">
+        <p/>
+      </li>
+    </ul>
+  </body>
+</html>
