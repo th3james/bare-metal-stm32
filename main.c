@@ -19,6 +19,12 @@
 // Set pin n to output mode
 #define GPIO_MODE_OUTPUT(n) (0x1 << (0x2 * n))
 
+// Address of GPIO Output Data Rigister
+#define GPIO_ODR_OFFSET 0x14
+#define GPIO_ODR_REGISTER(x) (*(volatile uint32_t *)(x + GPIO_ODR_OFFSET))
+// Set pin n to high
+#define GPIO_ODR_PIN(n) (1 << n)
+
 #define GPIO_BLINK_PORT GPIO_PORTB_BASE
 #define GPIO_BLINK_PIN 14
 
@@ -31,6 +37,9 @@ int main(void) {
   GPIO_MODER_REGISTER(GPIO_BLINK_PORT) &= ~GPIO_MODE_MASK(GPIO_BLINK_PIN);
   // Set mode for LED pin to output
   GPIO_MODER_REGISTER(GPIO_BLINK_PORT) |= GPIO_MODE_OUTPUT(GPIO_BLINK_PIN);
+
+  // Turn LED on
+  GPIO_ODR_REGISTER(GPIO_BLINK_PORT) |= GPIO_ODR_PIN(GPIO_BLINK_PIN);
 
   // Don't return from main
   for (;;) {
