@@ -3,7 +3,7 @@ MEMORY
   /* Device Flash start as documented in the Device Family Reference Manual rm0351-stm32l47xxx ... */
   /* Board has 1MB flash, see Board User Manual - STM32L4 Disco - DM00347848.pdf */
   FLASH (rx) : ORIGIN = 0x08000000, LENGTH = 1M
-  /* Device SRAM start as documented in the Device Family Reference Manual rm0351-stm32l47xxx ... */
+  /* Device SRAM1 start and capacity as documented in the Device Family Reference Manual rm0351-stm32l47xxx ... */
   /* Board has 96k SRAM1, see Board User Manual - STM32L4 Disco - DM00347848.pdf */
   RAM (rwx) : ORIGIN = 0x20000000, LENGTH = 96K
 }
